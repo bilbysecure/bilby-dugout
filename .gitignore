@@ -1,0 +1,22 @@
+# PHP
+/backend/vendor/
+/backend/.env
+/backend/var/
+/backend/.phpunit.cache/
+
+# Local databases & user uploads (never commit)
+*.sqlite3
+/backend/public/uploads/*
+!/backend/public/uploads/.gitkeep
+/backend/storage/media/*
+!/backend/storage/media/.gitkeep
+
+# Node / Vue
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.env.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log

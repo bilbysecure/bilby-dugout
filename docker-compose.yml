@@ -1,0 +1,33 @@
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: bilbydugout
+      MARIADB_USER: bilby
+      MARIADB_PASSWORD: secret
+      MARIADB_ROOT_PASSWORD: rootsecret
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    image: php:8.2-cli
+    working_dir: /app
+    command: sh -c "php -S 0.0.0.0:8080 -t public"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    # NOTE: install ext-pdo_mysql + composer in a proper Dockerfile for real use.
+
+volumes:
+  db_data:
